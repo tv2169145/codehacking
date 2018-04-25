@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+
+use App\Role;
+
+use App\Http\Requests\UsersRequest;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +22,9 @@ class AdminUsersController extends Controller
     public function index()
     {
         //
-        return view('admin.users.index');
+        $users=User::all();
+
+        return view('admin.users.index',compact('users'));
     }
 
     /**
@@ -28,7 +36,14 @@ class AdminUsersController extends Controller
     {
         //
 
-        return view('admin.users.create');
+        //  $roles = ['' => '--- select option ---'] + Role::Lists("name", "id")->toArray();
+        
+        // return view("admin.users.create", compact("roles"));
+
+        
+        $roles=Role::lists('name','id')->all();   //lists('值','主鍵')
+
+        return view('admin.users.create',compact('roles'));
     }
 
     /**
@@ -37,9 +52,17 @@ class AdminUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsersRequest $request)  //加入規則UsersRequest
     {
         //
+
+        User::create($request->all());
+
+        return redirect('/admin/users');
+
+
+        // return $request->all();
+
     }
 
     /**
