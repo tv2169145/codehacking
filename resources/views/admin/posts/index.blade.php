@@ -11,7 +11,7 @@
         <th>Id</th>
         <th>Photo</th>
         <th>Owner</th>
-        <th>Category_id</th>
+        <th>Category</th>
         <th>Title</th>
         <th>Body</th>
         <th>Created_at</th>
@@ -26,7 +26,7 @@
          <td>{{$post->id}}</td>
          <td><img height=50 src="{{ $post->photo ? $post->photo->file : '/images/noimg_single.png' }}"></td>
          <td>{{$post->user->name}}</td>
-         <td>{{$post->category_id}}</td> 
+         <td>{{$post->category ? $post->category->name : 'Uncategorized'}}</td> 
          <td>{{$post->title}}</td>
          <td>{{$post->body}}</td>
          <td>{{$post->created_at->diffForhumans()}}</td>
