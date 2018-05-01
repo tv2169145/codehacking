@@ -194,7 +194,35 @@ class AdminUsersController extends Controller
         //
         $user=User::findOrFail($id);
 
-        unlink(public_path().$user->photo->file);
+        
+
+        if($posts=$user->posts->all()){
+
+            foreach($posts as $post){
+
+                if($post->photo_id !=0){
+
+                    unlink(public_path().$post->photo->file);
+
+                    Photo::find($post->photo_id)->delete();    
+
+                }
+
+                
+            }
+
+        }
+
+
+
+        if($user->photo){
+
+             unlink(public_path().$user->photo->file);
+
+             $photo=Photo::find($user->photo_id)->delete();
+        }
+
+        
 
         $user->delete();
 

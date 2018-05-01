@@ -20,7 +20,10 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->timestamps();
-        });
+
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });//刪除使用者時 ,同時刪除他的文章
     }
 
     /**
