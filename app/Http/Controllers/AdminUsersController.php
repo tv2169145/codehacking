@@ -208,12 +208,9 @@ class AdminUsersController extends Controller
 
                 }
 
-                
             }
 
         }
-
-
 
         if($user->photo){
 

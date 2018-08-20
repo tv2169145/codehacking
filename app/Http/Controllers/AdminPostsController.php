@@ -30,7 +30,7 @@ class AdminPostsController extends Controller
     public function index()
     {
         //
-        $posts=Post::all();
+        $posts=Post::paginate(2); 
 
         return view('admin.posts.index',compact('posts'));
     }
@@ -58,6 +58,7 @@ class AdminPostsController extends Controller
     public function store(PostsCreateRequest $request)
     {
         //
+        // $title=str_slug($request->title,'-');
 
         $input=$request->all();
 
@@ -142,7 +143,7 @@ class AdminPostsController extends Controller
 
         }
 
-        Auth::user()->posts()->whereId($id)->first()->update($input);
+        Post::findOrFail($id)->update($input);
 
 
         return redirect('/admin/posts');
@@ -170,5 +171,32 @@ class AdminPostsController extends Controller
 
         return redirect('/admin/posts');
                
+    }
+
+    public function post($slug){
+
+        $post=Post::where('slug',$slug)->first();
+
+        // $post=Post::findBySlugOrFail($slug)->get();
+
+        $comments=$post->comments()->whereIsActive(1)->get();
+
+        $categorys=Category::all();
+
+
+        return view('post',compact('post','categorys','comments'));
+
+        
+    }
+
+    public function blog(){
+
+        $categories=Category::all();
+
+        $posts=Post::paginate(2);
+
+
+
+        return view('blog',compact('categories','posts'));
     }
 }

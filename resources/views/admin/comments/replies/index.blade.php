@@ -2,8 +2,7 @@
 
 
 @section('content')
-
-<h1>Admin</h1>
+<h1>Replies</h1>
 
 
 @endsection

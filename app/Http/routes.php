@@ -20,8 +20,34 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 
 
+Route::get('/blog',['as'=>'home.blog','uses'=>'AdminPostsController@blog']);
+
+
+Route::get('/post/{id}',['as'=>'home.post','uses'=>'AdminPostsController@post']);
+
+
+
+Route::get('/admin/media/delete/{id}',['as'=>'delete.media','uses'=>'AdminMediasController@delete']);
+
+
+
+
 
 Route::group(['middleware'=>'admin'],function(){
+
+	Route::get('/admin',function(){
+
+
+		return view('admin.index');
+	});
+
+	Route::delete('admin/delete/media','AdminMediasController@deleteMedia');
+
+// 	Route::get('/media-delete/{id}', [
+//     'uses' => 'AdminMediasController@destroy',
+//     'as'   => 'media.delete.manually',
+// ]);
+
 
 	Route::resource('admin/users','AdminUsersController');
 
@@ -29,11 +55,22 @@ Route::group(['middleware'=>'admin'],function(){
 
 	Route::resource('admin/categories','AdminCategoriesController');
 
+	Route::resource('admin/media','AdminMediasController');
+
+	Route::resource('admin/comments','PostCommentsController');
+
+	Route::resource('admin/comment/replies','CommentRepliesController');
+
 });
 
 
-Route::get('/admin',function(){
+
+Route::group(['middleware'=>'auth'],function(){
+
+	Route::post('comment/reply','CommentRepliesController@createReply');
 
 
-	return view('admin.index');
 });
+
+
+
